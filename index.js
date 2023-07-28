@@ -13,4 +13,4 @@ app.get("/api",(req,res)=>{
     res.send('ok')
 })
 
-app.listen(8080)
+app.listen(80)
