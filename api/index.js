@@ -5,7 +5,7 @@ const request = require('request');
 // let html = fs.readFileSync('data.html', 'utf-8');
 
 const app = express();
-app.get("/api/:name", (req, res) => {
+app.get("/:name", (req, res) => {
     const name = req.params.name;
     console.log(name);
     options = {
