@@ -5,6 +5,7 @@ const request = require('request');
 // let html = fs.readFileSync('data.html', 'utf-8');
 
 const app = express();
+app.use(express.json())
 app.get("/api/", (req, res) => {
     const name =Object.keys(req.query)[0] ;
     console.log(name);
@@ -96,6 +97,7 @@ app.get("/api/", (req, res) => {
             "total": totals,
             "contributions": arrSplit(dataArr, 7)
         }
+        res.set('Content-Type', 'application/json')
         res.send(result);
     }
 })
