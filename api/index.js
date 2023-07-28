@@ -6,7 +6,7 @@ const request = require('request');
 
 const app = express();
 app.get("/api/", (req, res) => {
-    const name = req.query.name;
+    const name =Object.keys(req.query)[0] ;
     console.log(name);
     options = {
         url: 'https://github.com/' + name,
