@@ -1,34 +1,35 @@
 const express = require('express');
 const request = require('request');
 
-// const fs = require('fs');
-// let html = fs.readFileSync('data.html', 'utf-8');
+const fs = require('fs');
+let html = fs.readFileSync('data.html', 'utf-8');
 
 const app = express();
 app.use(express.json())
 app.get("/api/", (req, res) => {
-    const name =Object.keys(req.query)[0] ;
+    const name = Object.keys(req.query)[0];
     console.log(name);
-    options = {
-        url: 'https://github.com/' + name,
-        method: "GET"
-    };
-    let html='';
-    request(options, (err, res, dat) => {
-        if (!err && res.statusCode === 200) {
-            html = dat;
-          } else {
-            console.error(err);
-          }
-        next();
-    })
-    function next(){
+    next();
+    // options = {
+    //     url: 'https://github.com/' + name,
+    //     method: "GET"
+    // };
+    // let html='';
+    // request(options, (err, res, dat) => {
+    //     if (!err && res.statusCode === 200) {
+    //         html = dat;
+    //       } else {
+    //         console.error(err);
+    //       }
+    //     next();
+    // })
+    function next() {
         console.log(html);
         const countReg = /<span class=\"sr-only\">(\w*) contribution/g;
         const dateReg = /data-date="(.*?)" data-level/g
         const countRaw = html.match(countReg);
         const dateRaw = html.match(dateReg);
-    
+
         let count = [];
         countRaw.forEach(ele => {
             ele = ele.slice(22,).split(' ')[0];
@@ -39,13 +40,13 @@ app.get("/api/", (req, res) => {
             }
         });
         // console.log(count);
-    
+
         let date = [];
         dateRaw.forEach(ele => {
             date.push(ele.split('"')[1])
         });
         // console.log(date)
-    
+
         function getnewarr(keyArr, valueArr) {
             var obj = {};
             keyArr.map((v, i) => {
@@ -65,14 +66,14 @@ app.get("/api/", (req, res) => {
         }
         date = sorted_date;
         count = Object.values(sorted_data);
-    
+
         let dataArr = [];
         for (let k = 0; k < length; k++) {
             let itemArr = { "date": date[k], "count": count[k] }
             dataArr.push(itemArr);
         }
         console.log(dataArr);
-    
+
         function arrSplit(arr, n) {
             return arr.reduce(function (result, item, index) {
                 if (index % n === 0) {
@@ -82,7 +83,7 @@ app.get("/api/", (req, res) => {
                 return result;
             }, []);
         }
-    
+
         //总提提交数
         function sumArr(arr) {
             let sum = 0;
@@ -92,12 +93,11 @@ app.get("/api/", (req, res) => {
             return sum;
         }
         const totals = sumArr(count);
-    
+
         result = {
             "total": totals,
             "contributions": arrSplit(dataArr, 7)
         }
-
         res.header('Access-Control-Allow-Origin', '*');
         res.header('Content-Type', 'application/json');
         res.set({
