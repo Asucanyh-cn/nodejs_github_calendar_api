@@ -8,7 +8,7 @@ request(options,(err,res,html)=>{
     if(err) return console.log(err);
     console.log(res);
     console.log(html)
-    fs.writeFile('./data.html',html,'utf-8',(err)=>{
+    fs.writeFile('data.html',html,'utf-8',(err)=>{
         console.log(err)
     })
 })

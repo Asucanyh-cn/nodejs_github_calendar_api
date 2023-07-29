@@ -24,29 +24,19 @@ app.get("/api/", (req, res) => {
     //     next();
     // })
     function next() {
-        console.log(html);
-        const countReg = /<span class=\"sr-only\">(\w*) contribution/g;
-        const dateReg = /data-date="(.*?)" data-level/g
-        const countRaw = html.match(countReg);
-        const dateRaw = html.match(dateReg);
-
+        const countRaw = html.match(/<span class=\"sr-only\">(\w*) contribution/g);
+        const dateRaw = html.match(/data-date="(.*?)" data-level/g);
         let count = [];
         countRaw.forEach(ele => {
             ele = ele.slice(22,).split(' ')[0];
-            if (ele == 'No') {
-                count.push(0)
-            } else {
-                count.push(Number(ele))
-            }
+            ele === 'No'?count.push(0): count.push(Number(ele));
         });
         // console.log(count);
-
         let date = [];
         dateRaw.forEach(ele => {
             date.push(ele.split('"')[1])
         });
         // console.log(date)
-
         function getnewarr(keyArr, valueArr) {
             var obj = {};
             keyArr.map((v, i) => {
@@ -55,7 +45,7 @@ app.get("/api/", (req, res) => {
             return obj;
         }
         //按时间排序
-        const length = dateRaw.length;
+        const length = date.length;
         let nosort_data = getnewarr(date, count)
         let sorted_data = {};
         const sorted_date = date.sort();
@@ -64,23 +54,19 @@ app.get("/api/", (req, res) => {
             let key = sorted_date[i];
             sorted_data[key] = nosort_data[key];
         }
-        date = sorted_date;
         count = Object.values(sorted_data);
 
         let dataArr = [];
         for (let k = 0; k < length; k++) {
-            let itemArr = { "date": date[k], "count": count[k] }
+            let itemArr = { "date": sorted_date[k], "count": count[k] }
             dataArr.push(itemArr);
         }
-        console.log(dataArr);
+        // console.log(dataArr);
 
         function arrSplit(arr, n) {
-            return arr.reduce(function (result, item, index) {
-                if (index % n === 0) {
-                    result.push([]);
-                }
-                result[result.length - 1].push(item);
-                return result;
+            return arr.reduce((resultList, itemArr, index) => {
+                index % n === 0 ? resultList.push([]) : resultList[resultList.length - 1].push(itemArr);
+                return resultList;
             }, []);
         }
 
