@@ -34,7 +34,7 @@ app.get("/api/", (req, res) => {
             return obj;
         }
         const length = date.length;
-        let nosort_data = getnewadaterr(date, count)
+        let nosort_data = getnewarr(date, count)
         let sorted_data = {};
         const sorted_date = date.sort();
         for (let i = 0; i < length; i++) {
