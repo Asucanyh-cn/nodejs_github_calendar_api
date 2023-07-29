@@ -29,7 +29,7 @@ app.get("/api/", (req, res) => {
         let count = [];
         countRaw.forEach(ele => {
             ele = ele.slice(22,).split(' ')[0];
-            ele === 'No'?count.push(0): count.push(Number(ele));
+            ele === 'No' ? count.push(0) : count.push(Number(ele));
         });
         // console.log(count);
         let date = [];
@@ -64,9 +64,10 @@ app.get("/api/", (req, res) => {
         // console.log(dataArr);
 
         function arrSplit(arr, n) {
-            return arr.reduce((resultList, itemArr, index) => {
-                index % n === 0 ? resultList.push([]) : resultList[resultList.length - 1].push(itemArr);
-                return resultList;
+            return arr.reduce(function (result, item, index) {
+                if (index % n === 0) result.push([]);
+                result[result.length - 1].push(item);
+                return result;
             }, []);
         }
 

@@ -11,7 +11,7 @@ app.get("/api/", (req, res) => {
     };
     let html = '';
     request(options, (err, res, dat) => {
-        !err && res.statusCode === 200 ?html = dat:console.error(err);
+        !err && res.statusCode === 200 ? html = dat : console.error(err);
         next();
     })
     function next() {
@@ -49,7 +49,8 @@ app.get("/api/", (req, res) => {
         }
         function arrSplit(arr, n) {
             return arr.reduce((resultList, itemArr, index) => {
-                index % n === 0 ? resultList.push([]) : resultList[resultList.length - 1].push(itemArr);
+                if (index % n === 0) { resultList.push([]) };
+                resultList[resultList.length - 1].push(itemArr);
                 return resultList;
             }, []);
         }
