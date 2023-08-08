@@ -1,2 +1,2 @@
-这是一个使用node.js编写的GitHub活动日历api。
-参考了Zfour的Python脚本。
+# GitHub活动日历API Written by nodejs
+> 参考了[Zfour](https://github.com/Zfour)的Python脚本。
